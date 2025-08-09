@@ -1,42 +1,180 @@
 {
   "version": "1.0.0",
+  "project": "HLW_Disposal_Integrated_Normal_Evolution",
+  "title": "통합 안전성 평가(정상 진화) 시나리오 데이터셋",
   "sourceStandard": "Mixed",
   "mapping": {
-    "iaeaRef": "IAEA-TECDOC-XXXX",
-    "neaIFEP": "NEA_IFEP_1234",
-    "kinsRef": "KINS-RG-XX-2025"
+    "iaeaRef": "FEP: Groundwater flow; Radionuclide transport; Thermal evolution; Multi-barrier concept (IAEA SSG-23)",
+    "neaIFEP": "IFEP v3.1: Geosphere - Groundwater flow & transport; Repository/EBS - Buffer performance; Waste Package - Container integrity",
+    "kinsRef": "KINS THMC 분류: 열(T)·수리(H)·기계(M)·화학(C) 및 핵종이동"
   },
-  "features": {
-    "처분공 및 처분터널": {
-      "w": 0.2,
-      "rationale": "통로 역할·구조 건전성 영향"
-    },
-    "벤토나이트 버퍼": {
-      "w": 0.4,
-      "rationale": "차수·완충의 핵심 방벽"
-    },
-    "구조용 폐기물 용기(내부 캐니스터 포함)": {
-      "w": 0.3,
-      "rationale": "1차 격리 장벽"
-    },
-    "호스트 암반 및 단층대": {
-      "w": 0.1,
-      "rationale": "부지 수리지질 영향"
-    }
-  },
-  "events": [
-    "지진",
-    "지하수 유입",
-    "가스 발생"
+
+  "features": [
+    "폐기물 용기(내부 캐니스터 포함)",
+    "벤토나이트 버퍼",
+    "처분공 및 처분터널",
+    "호스트 암반"
   ],
   "processes": [
-    "열전도",
-    "물질 확산",
-    "부식"
+    "열전달(용기 붕괴열에 따른 버퍼 열진화)",
+    "지하수 유동(대류/여과, 정상 범위)",
+    "핵종 용출 및 이동(용해, 확산, 분배/흡착)",
+    "장기 화학평형 변화(완충·광물반응)",
+    "방사성 붕괴"
   ],
+  "events": [],
+
   "metadata": {
-    "site": "가상의 심층처분연구시설",
+    "site": "가상 부지 A (심지층 화강암)",
     "date": "2025-08-09",
-    "provenance": "IAEA, NEA, KINS 자료 종합"
+    "provenance": "IAEA SSG-23 · NEA IFEP v3.1 · KINS 지침 기반 정상 진화 시나리오"
+  },
+  "standards": [
+    "IAEA SSG-23 (Latest revision)",
+    "NEA IFEP v3.1",
+    "KINS 심지층 처분 안전성 평가 지침(THMC)"
+  ],
+
+  "site": {
+    "name": "가상 부지 A",
+    "depth_m": 500,
+    "host_rock": "화강암",
+    "groundwater": {
+      "type": "저염분 심부 지하수",
+      "gradient": 0.008,
+      "temperature_C": 32
+    }
+  },
+
+  "scenario": {
+    "id": "SCN-NE-001",
+    "name": "정상 진화(Disruptive Event 없음)",
+    "purpose": "통합 안전성 평가(정상 진화)",
+    "time_horizon_years": 100000,
+    "assumptions": [
+      "처분 후 통풍 종료, 초기 수백 년 내 열피크 감소",
+      "버퍼 포화 완료 및 설계 밀도 유지(허용 편차 내)",
+      "단층·파쇄대 영향은 정상 범위로 제한(우회 고투수 경로 미형성)",
+      "인위적 침입 및 대규모 자연재해(지진/화산)는 본 시나리오에서 배제"
+    ],
+    "features": [
+      "폐기물 용기(내부 캐니스터 포함)",
+      "벤토나이트 버퍼",
+      "처분공 및 처분터널",
+      "호스트 암반"
+    ],
+    "processes": [
+      "열전달(용기 붕괴열에 따른 버퍼 열진화)",
+      "지하수 유동(대류/여과, 정상 범위)",
+      "핵종 용출 및 이동(용해, 확산, 분배/흡착)",
+      "장기 화학평형 변화(완충·광물반응)",
+      "방사성 붕괴"
+    ],
+    "parameters": {
+      "thermal": {
+        "canister_decay_heat_W": 250,
+        "buffer_k_W_mK": 1.0
+      },
+      "hydraulic": {
+        "host_rock_permeability_m2": 1e-18,
+        "buffer_hydraulic_conductivity_m_s": 5e-13,
+        "porosity_host_rock": 0.01,
+        "porosity_buffer": 0.40
+      },
+      "chemical": {
+        "pH": 8.2,
+        "redox": "환원성",
+        "Kd_generic_m3_kg": 0.1
+      },
+      "radiological": {
+        "representative_RNs": [
+          { "name": "I-129", "half_life_years": 1.57e7, "Kd_m3_kg": 0.0 },
+          { "name": "Cs-135", "half_life_years": 2.3e6, "Kd_m3_kg": 0.5 }
+        ],
+        "initial_inventory_Bq": 3.0e14
+      },
+      "mechanical": {
+        "tunnel_convergence_allowable_mm": 20
+      }
+    },
+    "conceptual_model": {
+      "flow_model": "균질 등가다공질(정상 범위) + 버퍼 비등방 확산",
+      "transport_model": "대류-확산-붕괴; 다중핵종(선형 평형 흡착)",
+      "ebs_representation": "용기(지연 누설 가정), 버퍼(차수·완충), 터널(보조적 경계)"
+    },
+    "model_inputs": {
+      "boundary_conditions": {
+        "head_top_m": 0,
+        "head_bottom_m": -40,
+        "chemistry_top": "지표수-지하수 경계 정상 범위",
+        "temperature_farfield_C": 30
+      },
+      "source_term": {
+        "release_start_year": 1000,
+        "release_type": "용해지배",
+        "solubility_limit_mol_m3": 10
+      },
+      "discretization": {
+        "domain_LWH_m": [2000, 2000, 800],
+        "grid_size_m": 5
+      }
+    },
+    "acceptance_criteria": {
+      "dose_constraint_mSv_y": 0.1,
+      "release_rate_limit_Bq_y": 1.0e9
+    },
+    "outputs_expected": {
+      "peak_dose_mSv_y": 0.003,
+      "peak_time_year": 26000,
+      "breakthrough_time_year": 9000,
+      "confidence_level": "중간-높음"
+    },
+    "uncertainties": {
+      "aleatory": [
+        "장기 자연 경계조건의 미세 변동(수리경사, 온도)",
+        "암반 이질성의 중간 규모 변동"
+      ],
+      "epistemic": [
+        "버퍼 장기 미세구조 변화(확산계수 변동)",
+        "용기 부식속도 파라미터 불확실성"
+      ],
+      "treatment": "민감도 분석(SA) + 라틴하이퍼큐브 표본 N=500"
+    },
+    "monitoring_plan": {
+      "preclosure": [
+        "갱내 온도/습도/수리수두 모니터링",
+        "버퍼 포화 진행률 간접 지표 관측"
+      ],
+      "postclosure": [
+        "지표부 지하수 화학성 주기 관측",
+        "자연 온도·수리경계 장기 추세분석"
+      ]
+    },
+    "traceability": {
+      "provenance": "IAEA SSG-23, NEA IFEP v3.1, KINS THMC 지침",
+      "notes": "정상 진화 가정하에 파괴적 이벤트(지진/침입 등)는 본 시나리오에서 제외"
+    }
+  },
+
+  "weights": {
+    "features": {
+      "벤토나이트 버퍼": { "w": 0.40, "rationale": "차수·완충 핵심 방벽(정상 진화에서 장기 성능 지배)" },
+      "폐기물 용기(내부 캐니스터 포함)": { "w": 0.30, "rationale": "초기 격리 주도, 누설 지연 가정" },
+      "처분공 및 처분터널": { "w": 0.20, "rationale": "구조 건전성 및 경계 영향(보조적)" },
+      "호스트 암반": { "w": 0.10, "rationale": "부지 적합성 전제, 정상 범위 영향" },
+      "_sum": 1.0
+    },
+    "processes": {
+      "지하수 유동(대류/여과, 정상 범위)": { "w": 0.40, "rationale": "이동 메커니즘의 주된 운반 경로" },
+      "핵종 용출 및 이동(용해, 확산, 분배/흡착)": { "w": 0.35, "rationale": "소스텀·흡착에 따른 이동 지배" },
+      "열전달(용기 붕괴열에 따른 버퍼 열진화)": { "w": 0.15, "rationale": "초기 수백 년 영향, 장기엔 감소" },
+      "장기 화학평형 변화(완충·광물반응)": { "w": 0.07, "rationale": "화학 완충으로 안정성 유지" },
+      "방사성 붕괴": { "w": 0.03, "rationale": "장주기 핵종(I-129 등)에선 영향 작음" },
+      "_sum": 1.0
+    },
+    "events": {
+      "_note": "정상 진화 시나리오에서 파괴적 이벤트는 모델링 범위 밖",
+      "_sum": 0.0
+    }
   }
 }
