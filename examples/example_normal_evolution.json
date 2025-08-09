@@ -1,0 +1,42 @@
+{
+  "version": "1.0.0",
+  "sourceStandard": "Mixed",
+  "mapping": {
+    "iaeaRef": "IAEA-TECDOC-XXXX",
+    "neaIFEP": "NEA_IFEP_1234",
+    "kinsRef": "KINS-RG-XX-2025"
+  },
+  "features": {
+    "처분공 및 처분터널": {
+      "w": 0.2,
+      "rationale": "통로 역할·구조 건전성 영향"
+    },
+    "벤토나이트 버퍼": {
+      "w": 0.4,
+      "rationale": "차수·완충의 핵심 방벽"
+    },
+    "구조용 폐기물 용기(내부 캐니스터 포함)": {
+      "w": 0.3,
+      "rationale": "1차 격리 장벽"
+    },
+    "호스트 암반 및 단층대": {
+      "w": 0.1,
+      "rationale": "부지 수리지질 영향"
+    }
+  },
+  "events": [
+    "지진",
+    "지하수 유입",
+    "가스 발생"
+  ],
+  "processes": [
+    "열전도",
+    "물질 확산",
+    "부식"
+  ],
+  "metadata": {
+    "site": "가상의 심층처분연구시설",
+    "date": "2025-08-09",
+    "provenance": "IAEA, NEA, KINS 자료 종합"
+  }
+}

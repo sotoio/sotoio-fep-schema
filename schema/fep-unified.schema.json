@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/fep-unified.schema.json",
+  "title": "Unified FEP Dataset",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string"
+    },
+    "sourceStandard": {
+      "type": "string",
+      "enum": [
+        "IAEA",
+        "NEA",
+        "KINS",
+        "Mixed"
+      ]
+    },
+    "mapping": {
+      "type": "object",
+      "properties": {
+        "iaeaRef": {
+          "type": "string"
+        },
+        "neaIFEP": {
+          "type": "string"
+        },
+        "kinsRef": {
+          "type": "string"
+        }
+      }
+    },
+    "features": {
+      "type": "object",
+      "patternProperties": {
+        ".*": {
+          "type": "object",
+          "properties": {
+            "w": {
+              "type": "number"
+            },
+            "rationale": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "w",
+            "rationale"
+          ]
+        }
+      }
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "processes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "site": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string",
+          "format": "date"
+        },
+        "provenance": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "required": [
+    "version",
+    "features",
+    "events",
+    "processes"
+  ]
+}
