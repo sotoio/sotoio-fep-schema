@@ -10,19 +10,24 @@
   },
 
   "features": [
-    "폐기물 용기(내부 캐니스터 포함)",
-    "벤토나이트 버퍼",
-    "처분공 및 처분터널",
-    "호스트 암반"
+    { "id": "F001", "name": "폐기물 용기(내부 캐니스터 포함)", "w": 0.30, "rationale": "초기 격리 주도, 누설 지연 가정" },
+    { "id": "F002", "name": "벤토나이트 버퍼",               "w": 0.40, "rationale": "차수·완충 핵심 방벽(정상 진화에서 장기 성능 지배)" },
+    { "id": "F003", "name": "처분공 및 처분터널",             "w": 0.20, "rationale": "구조 건전성 및 경계 영향(보조적)" },
+    { "id": "F004", "name": "호스트 암반",                   "w": 0.10, "rationale": "부지 적합성 전제, 정상 범위 영향" }
   ],
+
   "processes": [
-    "열전달(용기 붕괴열에 따른 버퍼 열진화)",
-    "지하수 유동(대류/여과, 정상 범위)",
-    "핵종 용출 및 이동(용해, 확산, 분배/흡착)",
-    "장기 화학평형 변화(완충·광물반응)",
-    "방사성 붕괴"
+    { "id": "P001", "name": "지하수 유동(대류/여과, 정상 범위)",           "w": 0.40, "rationale": "이동 메커니즘의 주된 운반 경로" },
+    { "id": "P002", "name": "핵종 용출 및 이동(용해, 확산, 분배/흡착)",     "w": 0.35, "rationale": "소스텀·흡착에 따른 이동 지배" },
+    { "id": "P003", "name": "열전달(용기 붕괴열에 따른 버퍼 열진화)",       "w": 0.15, "rationale": "초기 수백 년 영향, 장기엔 감소" },
+    { "id": "P004", "name": "장기 화학평형 변화(완충·광물반응)",           "w": 0.07, "rationale": "화학 완충으로 안정성 유지" },
+    { "id": "P005", "name": "방사성 붕괴",                                 "w": 0.03, "rationale": "장주기 핵종(I-129 등) 영향 작음" }
   ],
-  "events": [],
+
+  "events": [
+    { "id": "E001", "name": "장기적 수리경사 증가",               "w": 0.60, "rationale": "장기 유출량 증가 가능성(경계조건 변화)" },
+    { "id": "E002", "name": "지하수 화학 경계의 미세 변동",       "w": 0.40, "rationale": "용해도/흡착 변화에 의한 이동성 변화" }
+  ],
 
   "metadata": {
     "site": "가상 부지 A (심지층 화강암)",
@@ -39,11 +44,7 @@
     "name": "가상 부지 A",
     "depth_m": 500,
     "host_rock": "화강암",
-    "groundwater": {
-      "type": "저염분 심부 지하수",
-      "gradient": 0.008,
-      "temperature_C": 32
-    }
+    "groundwater": { "type": "저염분 심부 지하수", "gradient": 0.008, "temperature_C": 32 }
   },
 
   "scenario": {
@@ -57,51 +58,36 @@
       "단층·파쇄대 영향은 정상 범위로 제한(우회 고투수 경로 미형성)",
       "인위적 침입 및 대규모 자연재해(지진/화산)는 본 시나리오에서 배제"
     ],
-    "features": [
-      "폐기물 용기(내부 캐니스터 포함)",
-      "벤토나이트 버퍼",
-      "처분공 및 처분터널",
-      "호스트 암반"
-    ],
-    "processes": [
-      "열전달(용기 붕괴열에 따른 버퍼 열진화)",
-      "지하수 유동(대류/여과, 정상 범위)",
-      "핵종 용출 및 이동(용해, 확산, 분배/흡착)",
-      "장기 화학평형 변화(완충·광물반응)",
-      "방사성 붕괴"
-    ],
+
+    "featureIds":  ["F001", "F002", "F003", "F004"],
+    "processIds":  ["P001", "P002", "P003", "P004", "P005"],
+    "eventIds":    ["E001", "E002"],
+
     "parameters": {
-      "thermal": {
-        "canister_decay_heat_W": 250,
-        "buffer_k_W_mK": 1.0
-      },
+      "thermal": { "canister_decay_heat_W": 250, "buffer_k_W_mK": 1.0 },
       "hydraulic": {
         "host_rock_permeability_m2": 1e-18,
         "buffer_hydraulic_conductivity_m_s": 5e-13,
         "porosity_host_rock": 0.01,
         "porosity_buffer": 0.40
       },
-      "chemical": {
-        "pH": 8.2,
-        "redox": "환원성",
-        "Kd_generic_m3_kg": 0.1
-      },
+      "chemical": { "pH": 8.2, "redox": "환원성", "Kd_generic_m3_kg": 0.1 },
       "radiological": {
         "representative_RNs": [
-          { "name": "I-129", "half_life_years": 1.57e7, "Kd_m3_kg": 0.0 },
-          { "name": "Cs-135", "half_life_years": 2.3e6, "Kd_m3_kg": 0.5 }
+          { "name": "I-129", "half_life_years": 15700000, "Kd_m3_kg": 0.0 },
+          { "name": "Cs-135", "half_life_years": 2300000,  "Kd_m3_kg": 0.5 }
         ],
         "initial_inventory_Bq": 3.0e14
       },
-      "mechanical": {
-        "tunnel_convergence_allowable_mm": 20
-      }
+      "mechanical": { "tunnel_convergence_allowable_mm": 20 }
     },
+
     "conceptual_model": {
       "flow_model": "균질 등가다공질(정상 범위) + 버퍼 비등방 확산",
       "transport_model": "대류-확산-붕괴; 다중핵종(선형 평형 흡착)",
       "ebs_representation": "용기(지연 누설 가정), 버퍼(차수·완충), 터널(보조적 경계)"
     },
+
     "model_inputs": {
       "boundary_conditions": {
         "head_top_m": 0,
@@ -114,21 +100,18 @@
         "release_type": "용해지배",
         "solubility_limit_mol_m3": 10
       },
-      "discretization": {
-        "domain_LWH_m": [2000, 2000, 800],
-        "grid_size_m": 5
-      }
+      "discretization": { "domain_LWH_m": [2000, 2000, 800], "grid_size_m": 5 }
     },
-    "acceptance_criteria": {
-      "dose_constraint_mSv_y": 0.1,
-      "release_rate_limit_Bq_y": 1.0e9
-    },
+
+    "acceptance_criteria": { "dose_constraint_mSv_y": 0.1, "release_rate_limit_Bq_y": 1.0e9 },
+
     "outputs_expected": {
       "peak_dose_mSv_y": 0.003,
       "peak_time_year": 26000,
       "breakthrough_time_year": 9000,
       "confidence_level": "중간-높음"
     },
+
     "uncertainties": {
       "aleatory": [
         "장기 자연 경계조건의 미세 변동(수리경사, 온도)",
@@ -140,41 +123,15 @@
       ],
       "treatment": "민감도 분석(SA) + 라틴하이퍼큐브 표본 N=500"
     },
+
     "monitoring_plan": {
-      "preclosure": [
-        "갱내 온도/습도/수리수두 모니터링",
-        "버퍼 포화 진행률 간접 지표 관측"
-      ],
-      "postclosure": [
-        "지표부 지하수 화학성 주기 관측",
-        "자연 온도·수리경계 장기 추세분석"
-      ]
+      "preclosure": ["갱내 온도/습도/수리수두 모니터링", "버퍼 포화 진행률 간접 지표 관측"],
+      "postclosure": ["지표부 지하수 화학성 주기 관측", "자연 온도·수리경계 장기 추세분석"]
     },
+
     "traceability": {
       "provenance": "IAEA SSG-23, NEA IFEP v3.1, KINS THMC 지침",
       "notes": "정상 진화 가정하에 파괴적 이벤트(지진/침입 등)는 본 시나리오에서 제외"
-    }
-  },
-
-  "weights": {
-    "features": {
-      "벤토나이트 버퍼": { "w": 0.40, "rationale": "차수·완충 핵심 방벽(정상 진화에서 장기 성능 지배)" },
-      "폐기물 용기(내부 캐니스터 포함)": { "w": 0.30, "rationale": "초기 격리 주도, 누설 지연 가정" },
-      "처분공 및 처분터널": { "w": 0.20, "rationale": "구조 건전성 및 경계 영향(보조적)" },
-      "호스트 암반": { "w": 0.10, "rationale": "부지 적합성 전제, 정상 범위 영향" },
-      "_sum": 1.0
-    },
-    "processes": {
-      "지하수 유동(대류/여과, 정상 범위)": { "w": 0.40, "rationale": "이동 메커니즘의 주된 운반 경로" },
-      "핵종 용출 및 이동(용해, 확산, 분배/흡착)": { "w": 0.35, "rationale": "소스텀·흡착에 따른 이동 지배" },
-      "열전달(용기 붕괴열에 따른 버퍼 열진화)": { "w": 0.15, "rationale": "초기 수백 년 영향, 장기엔 감소" },
-      "장기 화학평형 변화(완충·광물반응)": { "w": 0.07, "rationale": "화학 완충으로 안정성 유지" },
-      "방사성 붕괴": { "w": 0.03, "rationale": "장주기 핵종(I-129 등)에선 영향 작음" },
-      "_sum": 1.0
-    },
-    "events": {
-      "_note": "정상 진화 시나리오에서 파괴적 이벤트는 모델링 범위 밖",
-      "_sum": 0.0
     }
   }
 }
